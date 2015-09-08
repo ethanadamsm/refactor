@@ -1,21 +1,11 @@
 module Utilities
 	
-	def evaluate(x)
-		if x % 100 == 0
-			if x % 400 == 0
-				true
-			else
-				false
-			end
-		elsif x % 4 == 0
-			true
-		else
-			false
-		end
+	def leap_year(x)
+		divisable_100?(x) ? divisable_400?(x) : divisable_4?(x)
 	end
 
 	def amount(a)
-		('%.1f' % ((a / 31536000.0) * 100)) + '%'
+		('%.1f' % ((a / SECONDS_IN_YEAR) * 100)) + '%'
 	end
 
 	def convert(x)
@@ -76,5 +66,20 @@ module Utilities
 
 		return ('%.1f' % (amount(c)[0..-2].to_f - amount(d)[0..-2].to_f)).to_s + '%'
 	end
+
+	private
+		SECONDS_IN_YEAR = 60 * 60 * 24 * 365.0
+
+		def divisable_400?(x)
+			x % 400 == 0			
+		end
+
+		def divisable_100?(x)
+			x % 100 == 0			
+		end
+
+		def divisable_4?(x)
+			x % 4 == 0
+		end
 
 end
