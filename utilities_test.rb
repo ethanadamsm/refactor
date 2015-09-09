@@ -21,9 +21,15 @@ class Methods2Test < MiniTest::Test
 		assert_equal false, @m.leap_year(1900)
 	end
 
-	def test_amount
-		assert_equal "120.0%", @m.amount(37843200.0)
-		assert_equal "60.0%", @m.amount(18921600.0)
+	def test_percentage_year
+		assert_equal "120.0%", @m.percentage_year(37843200.0)
+		assert_equal "60.0%", @m.percentage_year(18921600.0)
+	end
+
+	def test_convert 
+		assert_equal "23:00", @m.convert("11:00 pm")
+		assert_equal "2:36", @m.convert("2:36 am")
+		assert_equal "13:37", @m.convert("1:37 pm")
 	end
 
 end

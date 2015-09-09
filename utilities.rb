@@ -1,33 +1,21 @@
 module Utilities
+
+	SECONDS_IN_YEAR = 60 * 60 * 24 * 365.0
 	
 	def leap_year(x)
 		divisable_100?(x) ? divisable_400?(x) : divisable_4?(x)
 	end
 
-	def amount(a)
-		('%.1f' % ((a / SECONDS_IN_YEAR) * 100)) + '%'
+	def percentage_year(a)
+		('%.1f' % percentage_secs(a) + '%')
 	end
 
 	def convert(x)
-		a, b = x.split(":")
-		c, d = b.split(" ")
-		e = ""
+		hours, string = x.split(":")
+		minutes, timestate = string.split(" ")
 
-		if d.downcase != 'am'
-			if a.to_i == 12
-				e = a + ":" + c
-			else
-				e = (a.to_i + 12).to_s + ":" + c
-			end
-		elsif d.downcase != 'pm'
-			if a.to_i == 12
-				e = (a.to_i - 12).to_s + ":" + c
-			else
-				e = a + ":" + c
-			end
-		end
-
-		return e
+		convert_military(hours, minutes, timestate)
+	
 	end
 
 	def convert2(x)
@@ -68,8 +56,7 @@ module Utilities
 	end
 
 	private
-		SECONDS_IN_YEAR = 60 * 60 * 24 * 365.0
-
+		
 		def divisable_400?(x)
 			x % 400 == 0			
 		end
@@ -80,6 +67,33 @@ module Utilities
 
 		def divisable_4?(x)
 			x % 4 == 0
+		end
+
+		def percentage_secs(a)
+			(a / SECONDS_IN_YEAR) * 100
+		end
+
+		def is_am?(x)
+			x = x.downcase
+			x == "am"
+		end
+
+		def convert_military(hours, minutes, timestate)
+			change = 12
+			if is_am?(timestate)
+				is_12?(hours)
+			else
+				 ? condense_time(hours, minutes) : condense_time((hours.to_i + change).to_s,  minutes)
+			end
+			condense_time(hours, minutes, change)
+		end
+
+		def condense_time(hours, minutes, change)
+			(hours.to_i + change + ":" + minutes).to_s
+		end
+
+		def is_12?(x)
+			x.to_i == 12
 		end
 
 end
